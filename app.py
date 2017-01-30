@@ -9,11 +9,7 @@ app = flask.Flask(__name__)
 app.config['REDIS_URL'] = os.getenv('REDIS_URL')
 app.register_blueprint(flask_sse.sse, url_prefix='/stream')
 
-
-@app.before_first_request
-def get_lights():
-    global controller
-    controller = lights.Lights()
+controller = lights.Lights()
 
 
 @app.route('/')
