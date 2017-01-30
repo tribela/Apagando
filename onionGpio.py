@@ -1,3 +1,4 @@
+import os
 import sys
 
 
@@ -41,6 +42,8 @@ class OnionGpio:
 
 	def _initGpio(self):
 		"""Write to the gpio export to make the gpio available in sysfs"""
+		if os.path.isdir(self.path):
+			return _EXIT_SUCCESS
 		with open(GPIO_EXPORT, 'w') as fd:
 			fd.write(str(self.gpio))
 			fd.close()
@@ -50,6 +53,8 @@ class OnionGpio:
 
 	def _freeGpio(self):
 		"""Write to the gpio unexport to release the gpio sysfs instance"""
+		if not os.path.exists(self.path):
+			return _EXIT_SUCCESS
 		with open(GPIO_UNEXPORT, 'w') as fd:
 			fd.write(str(self.gpio))
 			fd.close()
