@@ -50,3 +50,6 @@ class Lights(object):
         switched = switch.getValue() if switch else 0
 
         relay.setValue(value ^ switched)
+
+    def __len__(self):
+        return len(self.relays)
