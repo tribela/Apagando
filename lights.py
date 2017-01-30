@@ -20,13 +20,25 @@ class Lights(object):
                 break
 
             port = int(os.getenv(relay_envname))
-            self.relays[i] = onionGpio.OnionGpio(port)
-            self.relays[i].setOutputDirection(0)
+            try:
+                self.relays[i] = onionGpio.OnionGpio(port)
+                self.relays[i].setOutputDirection()
+            except:
+                print('Failed to init {}({})'.format(
+                    i, port
+                ))
+                continue
 
             if switch_envname in os.environ:
                 port = int(os.getenv(switch_envname))
-                self.switches[i] = onionGpio.OnionGpio(port)
-                self.switches[i].setInputDirection()
+                try:
+                    self.switches[i] = onionGpio.OnionGpio(port)
+                    self.switches[i].setInputDirection()
+                except:
+                    print('Failed to init {}({})'.format(
+                        i, port
+                    ))
+                    continue
 
     def __getitem__(self, item):
         relay = self.relays.get(item)
