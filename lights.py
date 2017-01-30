@@ -38,7 +38,7 @@ class Lights(object):
         if not switch:
             return int(relay.getValue())
 
-        return relay.getValue() ^ switch.getValue()
+        return int(relay.getValue()) ^ int(switch.getValue())
 
     def __setitem__(self, item, value):
         relay = self.relays.get(item)
@@ -47,7 +47,7 @@ class Lights(object):
         if not relay:
             raise KeyError(item)
 
-        switched = switch.getValue() if switch else 0
+        switched = int(switch.getValue()) if switch else 0
 
         relay.setValue(value ^ switched)
 
