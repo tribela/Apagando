@@ -27,3 +27,5 @@ Software requirements
 
    $ opkg install python-light python-pip pyOnionGpio
    $ pip install -r requirements.txt
+   # Run apagando on boot
+   $ ln -sf $PWD/start.sh /etc/rc.d/S99apagando
