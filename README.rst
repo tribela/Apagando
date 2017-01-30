@@ -29,3 +29,19 @@ Software requirements
    $ pip install -r requirements.txt
    # Run apagando on boot
    $ ln -sf $PWD/start.sh /etc/rc.d/S99apagando
+
+
+Configuration
+-------------
+
+Edit ``.env`` to configuration
+
+.. code-block:: sh
+
+   # Relay's GPIO ports.
+   RELAY0=17
+   RELAY1=15
+
+   # Physical switch's GPIO ports.
+   SWITCH0=0
+   SWITCH1=1
