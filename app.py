@@ -30,7 +30,7 @@ def get_switch_status(number):
     return flask.jsonify(controller[number])
 
 
-@app.route('/switch/<int:number>', methods=['PUT', 'DELETE'])
+@app.route('/switch/<int:number>', methods=['PUT', 'DELETE', 'POST'])
 def set_switch_status(number):
     mapping = {
         'PUT': 1,
@@ -39,6 +39,10 @@ def set_switch_status(number):
 
     if flask.request.method in mapping:
         controller[number] = mapping[flask.request.method]
+        return 'OK'
+    elif flask.request.method == 'POST':
+        data = flask.request.json or flask.request.form
+        controller[number] = int(data.get('action'))
         return 'OK'
 
 
