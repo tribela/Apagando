@@ -48,12 +48,13 @@ def set_switch_status(number):
     }
 
     if flask.request.method in mapping:
-        controller[number] = mapping[flask.request.method]
-        return 'OK'
+        switch = mapping[flask.request.method]
     elif flask.request.method == 'POST':
         data = flask.request.json or flask.request.form
-        controller[number] = int(data.get('action'))
-        return 'OK'
+        switch = int(data.get('switch'))
+
+    controller[number] = switch
+    return 'OK'
 
 
 @app.route('/send')
