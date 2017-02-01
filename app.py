@@ -1,4 +1,5 @@
 import os
+import time
 
 import flask
 import flask_sse
@@ -10,6 +11,15 @@ app.config['REDIS_URL'] = os.getenv('REDIS_URL')
 app.register_blueprint(flask_sse.sse, url_prefix='/stream')
 
 controller = lights.Lights()
+
+# Blink once to notify boot
+for i in range(len(controller)):
+    try:
+        controller[i] = 1
+        time.sleep(1)
+        controller[i] = 0
+    except:
+        pass
 
 
 @app.route('/')
