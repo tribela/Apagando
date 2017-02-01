@@ -1,14 +1,10 @@
-import os
 import time
 
 import flask
-import flask_sse
 
 import lights
 
 app = flask.Flask(__name__)
-app.config['REDIS_URL'] = os.getenv('REDIS_URL')
-app.register_blueprint(flask_sse.sse, url_prefix='/stream')
 
 controller = lights.Lights()
 
@@ -55,11 +51,3 @@ def set_switch_status(number):
 
     controller[number] = switch
     return 'OK'
-
-
-@app.route('/send')
-def send_msg():
-    flask_sse.sse.publish({
-        'message': 'Hello, World!',
-    }, type='greeting')
-    return 'Sent message'
