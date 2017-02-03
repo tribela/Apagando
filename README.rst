@@ -23,6 +23,9 @@ My setup like this.
 .. image:: images/photo1.jpeg
    :alt: Hardware setup
 
+.. image:: images/photo2.jpeg
+   :alt: Final setup
+
 .. _Onion Omega 2 Plus: https://onion.io/
 
 
