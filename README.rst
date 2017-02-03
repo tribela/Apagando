@@ -20,7 +20,8 @@ I use `Onion Omega 2 Plus`_ to make this.
 
 My setup like this.
 
-.. |Hardware setup| image:: images/photo1.jpeg
+.. image:: images/photo1.jpeg
+   :alt: Hardware setup
 
 .. _Onion Omega 2 Plus: https://onion.io/
 
