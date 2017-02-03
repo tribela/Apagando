@@ -43,7 +43,7 @@ Configuration
 I connect two relay switch to GPIO 0 and 1.
 I planned to connect place small switch next to 3 way switch to synchronize 3 way switch's state.
 It works like an XOR gate, So you can turn on the light even when Apagando malfunctioning.
-And apagando returns **The light**'s status for `status` REST API.
+And apagando returns **The light**'s status for ``status`` REST API.
 
 +--------------+--------------+-----------+
 | 3 way switch | Relay switch | The light |
