@@ -17,6 +17,11 @@ I use `Onion Omega 2 Plus`_ to make this.
 - 2 relay switch.
 - 3 way light switch (for manually control).
 
+
+My setup like this.
+
+.. |Hardware setup| image:: images/photo1.jpeg
+
 .. _Onion Omega 2 Plus: https://onion.io/
 
 
