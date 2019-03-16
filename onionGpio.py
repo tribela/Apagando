@@ -1,6 +1,8 @@
 from __future__ import print_function
 
+
 import os
+import select
 import sys
 
 
@@ -160,6 +162,31 @@ class OnionGpio:
 			return ret
 
 		return _EXIT_FAILURE
+
+	def _set_edge(self, direction):
+		"""Set edge detection"""
+		ret = _EXIT_FAILURE
+	
+		if direction not in ('none', 'rising', 'falling', 'both'):
+			return _EXIT_FAILURE
+
+		with open(os.path.join(self.path, 'edge'), 'w') as fd:
+			fd.write(direction)
+			return _EXIT_SUCCESS
+
+	def poll(self):
+		self._set_edge('both')
+		pin_in = open(os.path.join(self.path, GPIO_VALUE_FILE))
+		poll = select.epoll()
+		poll.register(pin_in.fileno(), select.EPOLLPRI | select.EPOLLET)
+
+		pin_in.seek(0, 2)  # EOF
+		poll.poll(1)  # first read
+
+		while True:
+			events = poll.poll(4)
+			if events:
+				return
 
 	def setInputDirection(self):
 		ret 	= self._setDirection(_GPIO_INPUT_DIRECTION)
