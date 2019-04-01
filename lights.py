@@ -1,67 +1,28 @@
-import os
-
-import onionGpio
+from OmegaExpansion import relayExp
 
 
 class Lights(object):
 
-    def __init__(self):
-        self.relays = {}
-        self.switches = {}
+    RELAY_COUNT = 2
 
-        self.setup_gpios(2)
+    def __init__(self, pin_config):
+        self.pin_config = pin_config
+        self.setup()
 
-    def setup_gpios(self, count):
-        for i in range(count):
-            relay_envname = 'RELAY{}'.format(i)
-            switch_envname = 'SWITCH{}'.format(i)
-
-            if relay_envname not in os.environ:
-                break
-
-            port = int(os.getenv(relay_envname))
-            try:
-                self.relays[i] = onionGpio.OnionGpio(port)
-                self.relays[i].setOutputDirection()
-            except:
-                print('Failed to init {}({})'.format(
-                    i, port
-                ))
-                continue
-
-            if switch_envname in os.environ:
-                port = int(os.getenv(switch_envname))
-                try:
-                    self.switches[i] = onionGpio.OnionGpio(port)
-                    self.switches[i].setInputDirection()
-                except:
-                    print('Failed to init {}({})'.format(
-                        i, port
-                    ))
-                    continue
+    def setup(self):
+        inited = relayExp.checkInit(self.pin_config)
+        if not inited:
+            relayExp.driverInit(self.pin_config)
 
     def __getitem__(self, item):
-        relay = self.relays.get(item)
-        switch = self.switches.get(item)
-
-        if not relay:
-            raise KeyError(item)
-
-        if not switch:
-            return int(relay.getValue())
-
-        return int(relay.getValue()) ^ int(switch.getValue())
+        return relayExp.readChannel(self.pin_config, item)
 
     def __setitem__(self, item, value):
-        relay = self.relays.get(item)
-        switch = self.switches.get(item)
 
-        if not relay:
+        if not 0 <= item < self.RELAY_COUNT:
             raise KeyError(item)
 
-        switched = int(switch.getValue()) if switch else 0
-
-        relay.setValue(value ^ switched)
+        relayExp.setChannel(self.pin_config, item, value)
 
     def __len__(self):
-        return len(self.relays)
+        return self.RELAY_COUNT

@@ -1,3 +1,4 @@
+import os
 import time
 
 import flask
@@ -6,7 +7,8 @@ import lights
 
 app = flask.Flask(__name__)
 
-controller = lights.Lights()
+pin_config = int(os.getenv('PIN_CONFIG', 7))
+controller = lights.Lights(pin_config)
 
 # Blink once to notify boot
 for i in range(len(controller)):
@@ -14,7 +16,7 @@ for i in range(len(controller)):
         controller[i] = 1
         time.sleep(1)
         controller[i] = 0
-    except:
+    except:  # noqa: E722
         pass
 
 
